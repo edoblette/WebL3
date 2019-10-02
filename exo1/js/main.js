@@ -3,18 +3,24 @@ window.addEventListener("load", event => {
 	main();
 });
 
+
+
 const main = event => {
 	
 	console.log("MAIN");
-	
-	let component = new MyComponent("dummy");
-	
+
+	var sqr = document.createElement("div");
+
+	sqr.style.height = "100px";
+	sqr.style.width = "100px";
+	sqr.style.backgroundColor = "#21177D";
+	document.body.appendChild(sqr);
+
+	sqr.addEventListener("click", changeColor);
+		//ctx.onClick()
+
 }
 
-class MyComponent {
-	
-	constructor(name) {
-		console.log("my name is", name);
-	}
-	
+function changeColor( ) {
+	this.style.backgroundColor = "red";
 }
