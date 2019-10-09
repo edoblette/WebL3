@@ -14,12 +14,10 @@ class  element {
 		newDiv.style.height = "50px";
 		newDiv.style.width = "300px";
 		newDiv.style.position = "absolute";
-		newDiv.style.left = "10px";
+		newDiv.style.left = "20px";
 		newDiv.style.top =  (50 * id) + 10 + "px";
-		newDiv.style.margin = "10px";
+		newDiv.style.margin = "30px";
 
-
-		
 
 		let newDivContentImg = document.createElement("img");
 		newDivContentImg.id = id;
@@ -38,69 +36,78 @@ class  element {
 		newDiv.appendChild(newDivContentImg);
 		newDiv.appendChild(newDivContent);
 		container.appendChild(newDiv);
-    }
 
+		return newDiv;
+    }
+    /*
     getColor() {
-        return this.color;
+        return this.newDiv.style.backgroundColor;
     }
 
     setColor(color) {
         this.element.style.backgroundColor = color;
     }
+    */
 }
 
 const main = event => {
-	//init var
+	//init variables
+	let mouse_anchor =  0; 
+	let distance = 0
 	let front_element = 0;
 	let isDragging = false;
 	let screen_size = 60;
+	let tab = [];
 	let color_label = ["Klein Blue", "Vibrant Yellow", "Living Coral", "Chive Blossom", "Vivacious", "Barrier Reef", "Deep Lake", "Ibiza Blue", "Pink Lemonade", "Blue Depths"];
-	let color       = ["0, 47, 167", "255,218,41", "255,111,97", "125,93,153", "163,40,87", "0,132,161", "0,101,107", "	0,124,183", "238,109,138", "38,48,86"];
+	let color       = ["0, 47, 167", "255,218,41", "255,111,97", "125,93,153", "163,40,87", "0,132,161", "0,101,107", "0,124,183", "238,109,138", "38,48,86"];
 	console.log("MAIN");
 
 	let container = document.createElement("div");
 	document.body.appendChild(container);
 
 
-	for(var i = 0; i < 10; i++) {
-		let color_pick = ("rgba(" + color[i] + ',1)');
-		console.log(color_pick)
-		var square = new element(container,i, color_pick, color_label[i]);
+	// Creation des elements
 
-		//square.setColor("red")
+	for(let i = 0; i < 10; i++) {
+		let color_pick = ("rgba(" + color[i] + ',1)');
+		tab[i] = new element(container,i, color_pick, color_label[i]);
 	}
 		
 	  
-	  // ce gestionnaire sera exécuté une seule fois lorsque le curseur passera au dessus de la liste non ordonnée
-
+	// Gestion de la sourie
 	document.body.addEventListener('mousedown', e => {
-	 	mouse_anchor =  parseInt((e.y /screen_size ), 10); 
+	 	mouse_anchor = parseInt((e.clientY - container.offsetTop)/screen_size, 10);
+	 	//alert(mouse_anchor)
 		isDragging = true;
 	});
 	document.body.addEventListener('mouseup', e => {
-		mouse_anchor =  0; 
+		mouse_anchor = parseInt((e.clientY - container.offsetTop)/screen_size, 10);
 		isDragging = false;
 	});
 
-	var tab = container.getElementsByClassName("element");
-	var block_size = 50;
 
 	document.body.onmousemove = event => { 
 		
-		let distance = parseInt((event.clientY - container.offsetTop)/screen_size, 10); 
-
 		if(isDragging){
+			front_element  = parseInt((event.clientY - container.offsetTop)/screen_size, 10);
+			move_elements(tab, front_element)
+		}
 
-			
-			if((distance >= 0) && (distance < 10))
-				front_element = distance			
 
 
-			console.log(distance );
+
+	  	
+	}
+		
+  
+
+}
+
+function move_elements(tab, front_element){
+
 			for(let i = 0; i < 10; i++ ){
 				let distanceFront = i - front_element;
 				let formula = (-2 * Math.pow( Math.abs(distanceFront),2)) + 100 ;
-				console.log("je suis a une distance" + ' ' + distanceFront + ' ' + (formula/10));
 				if(i == front_element)
 					formula += 25;
 				if(formula > 0){
@@ -111,29 +118,4 @@ const main = event => {
 				tab[i].style.transitionDuration = "1s";
 			}
 
-			
-			/*					var block_size = 50;
-					if((mouse_Y > tab[i].offsetTop ) && (mouse_Y < (tab[i].offsetTop + block_size))){
-						var x = (((mouse_Y -  tab[i].offsetTop) * 10 ) / block_size);
-						var formula = (-0.2 * (x*x)) + (2 * x);
-						console.log('['+i+']' +formula)
-						//event.target.style.width = formula + "px";
-						//event.target.style.height = formula + "px";
-						//console.log(formula)
-						//console.log("Sourie dans le block : " + i)
-			*/
-		}
-	  	
-
-
-	}
-		
-  
-
-}
-
-function changeColor() {
-
-
-	alert(this.getColor());
 }
