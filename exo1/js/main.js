@@ -3,8 +3,6 @@ window.addEventListener("load", event => {
 	main();
 });
 
-
-
 class  element {
 
     constructor(container, id, color,  name) {
@@ -17,7 +15,6 @@ class  element {
 		newDiv.style.left = "20px";
 		newDiv.style.top =  (50 * id) + 10 + "px";
 		newDiv.style.margin = "30px";
-
 
 		let newDivContentImg = document.createElement("img");
 		newDivContentImg.id = id;
@@ -87,20 +84,13 @@ const main = event => {
 
 
 	document.body.onmousemove = event => { 
-		
+
 		if(isDragging){
 			front_element  = parseInt((event.clientY - container.offsetTop)/screen_size, 10);
 			move_elements(tab, front_element)
-		}
+		}  	
 
-
-
-
-	  	
 	}
-		
-  
-
 }
 
 function move_elements(tab, front_element){
